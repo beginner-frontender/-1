@@ -1,0 +1,47 @@
+   
+/* шапка */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: dimgrey;
+  }
+/* Логотип */
+.header__logo {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
+/* Кнопка */
+button {
+    font-size: 15px;
+    color: #fff;
+    background-color:red;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 16px 36px floralwhite;
+    padding: 15px;
+    transition: background-color 0.3s ease-in;
+}
+button:hover {
+    background-color:rgb(119, 4, 35);
+    box-shadow: 0 16px 36px rgba(6, 4, 0, 0.2);
+  }
+/* Середина сайта */
+.container {
+    display: flex;
+    background-color: rgb(242, 226, 228);
+    height: 100vh;
+}
+
+/* Подвал */
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 20px;
+    background-color: dimgrey;
+    color: #fff;
+  }
