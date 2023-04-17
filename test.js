@@ -68,6 +68,17 @@ if (cat.age >= 0) {
 //     deleteCard(cat.id, card);
 //     });
 
+const mdDescription = document.querySelector(".md-description");
+const mdDes = mdDescription.querySelector(".md-des");
+
+card.addEventListener("click", (e) => {
+    mdDescription.style.display = "flex";
+        });
+
+mdDes.addEventListener("click", e => {
+        mdDescription.style = null;
+        });
+
 el.append(card)
 }   
 // ----------------------------------------------
@@ -194,3 +205,21 @@ addForm.addEventListener("submit", e => {
 })
 // -------------------------------------------------------
 
+// const mdDescription = document.querySelector(".md-description");
+// const mdDes = mdDescription.querySelector(".md-des");
+
+// // const mdCard = box.querySelectorAll(".card")
+
+// // console.log(mdCard)
+// // mdCard.forEach(el => {
+// //     console.log(el)
+// // if(el) {
+// //     el.addEventListener("click", (e) => {
+// //         mdDescription.style.display = "flex";
+// //          });
+// // }
+
+// //     })
+// // mdDes.addEventListener("click", e => {
+// //         mdDescription.style = null;
+// //         });
