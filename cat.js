@@ -5,6 +5,7 @@ let cat = {
     favorite: false,
 }
 
+
 const box = document.querySelector(".container");
 
 // Общая функция добавления котов
@@ -60,8 +61,9 @@ function createCart(cat) {
     pen.addEventListener("click", e => {
         upd.style.display = "flex";
     });
-    const btn = upd.querySelector(".btn");
-    btn.addEventListener("click", e => {
+
+    const penClose = document.querySelector(".md-close")
+    penClose.addEventListener("click", e => {
         upd.style = null;
     })
     
@@ -77,6 +79,7 @@ function createCart(cat) {
 
     // Добавление в карточку
     card.append(like, pen, name, trash,);
+
     if (cat.age >= 0) {
         const age = document.createElement("span");
         age.innerText = cat.age;
@@ -227,6 +230,7 @@ addForm.addEventListener("submit", e => {
 
 // // Отправка формы обратной связи c изменениями
 const updForm = document.forms.upd;
+const mdBox2 = document.querySelector(".md-container");
 updForm.addEventListener("submit", e => {
     e.preventDefault(); // остановить действие по умолчанию
     const body = {};
@@ -240,31 +244,23 @@ updForm.addEventListener("submit", e => {
             }
         }
     }
-//     // отправка формы в базу данных
-fetch(`${path}/update/${cat.id}`, {
-    method: "PUT",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ body})
-})
+    fetch(`${path}/update/${cat.id}`), {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+        }
     .then(res => {
         if (res.ok) {
-            addForm.reset();  // очистить форму
-            mdBox.style = null; //закрыть форму
-            createCart(body); //отправка в тело бади без перезагрузки страницы
+            addForm.reset();
+            mdBox2.style = null;
+            createCart(body);
             let cats = localStorage.getItem("cats-data");
-            cats = JSON.parse(cats);
-            cats.push(body);
             localStorage.setItem("cats-data", JSON.stringify(cats));
-
         } else {
             return res.json();
         }
     })
-    .then(err => {
-        if (err && err.message) {
-            alert(err.message); //вывести сообщение об ошибке
-        }
-    });
+        upd.style = null;
 })
