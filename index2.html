@@ -61,7 +61,7 @@
                     info.innerHTML = null
                 }
 
-                img.src = `${data.image})`
+                img.src = `${data.image}`
                 if (!data.image) {
                     img.src = "https://i08.fotocdn.net/s107/292e101f2c458f26/public_pin_l/2352730875.jpg"
                 }
@@ -69,7 +69,7 @@
 
             })
         button.addEventListener("click", e => {
-            location.replace("http://127.0.0.1:5502/index.html")
+            location.assign("http://127.0.0.1:5502/index.html")
            
         })
     </script>

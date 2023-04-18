@@ -60,6 +60,26 @@ function createCart(cat) {
     const upd = document.querySelector(".md-container");
     pen.addEventListener("click", e => {
         upd.style.display = "flex";
+        const idInput = upd.querySelector("input[name=id]");
+        if (idInput) {
+            idInput.value=cat.id;
+        }
+        const nameInput = upd.querySelector("input[name=name]");
+        if (nameInput) {
+            nameInput.value=cat.name;
+        }
+        const imageInput = upd.querySelector("input[name=image]");
+        if (imageInput) {
+            imageInput.value=cat.image;
+        }
+        const favoriteInput = upd.querySelector("input[name=favorite]");
+        if (favoriteInput) {
+            favoriteInput.value=cat.favorite;
+        }
+        const descriptionInput = upd.querySelector("input[name=description]");
+        if (descriptionInput) {
+            descriptionInput.value=cat.description;
+        }
     });
 
     const penClose = document.querySelector(".md-close")
@@ -87,7 +107,7 @@ function createCart(cat) {
     }
 
     card.addEventListener("click", e => {
-        location.replace(`index2.html?id=${cat.id}`)
+        location.assign(`index2.html?id=${cat.id}`)
     })
     el.append(card)
 }
@@ -244,7 +264,7 @@ updForm.addEventListener("submit", e => {
             }
         }
     }
-    fetch(`${path}/update/${cat.id}`), {
+    fetch(`${path}/update/${body.id}`), {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -252,11 +272,12 @@ updForm.addEventListener("submit", e => {
         body: JSON.stringify(body)
         }
     .then(res => {
+        console.log(res)
         if (res.ok) {
-            addForm.reset();
+            updForm.reset();
             mdBox2.style = null;
             createCart(body);
-            let cats = localStorage.getItem("cats-data");
+            // let cats = localStorage.getItem("cats-data");
             localStorage.setItem("cats-data", JSON.stringify(cats));
         } else {
             return res.json();
