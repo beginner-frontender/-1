@@ -55,16 +55,17 @@
     <!-- -------------------------------------- -->
     <div class="md-container" data-type="upd">
         <div class="md">
+            <i class="fa-regular fa-circle-xmark modal-close"></i>
             <h2>Изменить котика</h2>
             <form id="upd">
-                <label for="upd1">ID</label>
-                <input type="number" id="upd1" name="id" required disabled placeholder="1" min="1">
-                <label for="upd2">Имя</label>
-                <input type="text" id="upd2" name="name" required placeholder="Мурка">
-                <label for="upd3">Изображение</label>
-                <input type="url" id="upd3" name="image" placeholder="Ссылка на картинку">
-                <label for="upd7">Описание</label>
-                <textarea type="text" id="upd7" name="description" placeholder="Описание" rows="3"></textarea>
+                <input type="number"  name="id" required disabled placeholder="id">
+                <input type="text" name="name" required placeholder="Мурка">
+                <input type="url" name="image" placeholder="Ссылка на картинку">
+                <label>
+                    <input type="checkbox" name="favorite">
+                    Любимчик
+                </label>
+                <textarea type="text" name="description" placeholder="Описание"></textarea>
                 <button class="btn" type="submit">сохранить</button>
             </form>
         </div>
