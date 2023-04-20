@@ -1,16 +1,14 @@
-let cat = {
-    name: "Кот",
-    age: 3,
-    image: "https://proprikol.ru/wp-content/uploads/2020/08/krasivye-kartinki-kotov-45.jpg",
-    favorite: false,
-}
-
-
+let cat;
 const box = document.querySelector(".container");
+const upd = document.querySelector(".md-container");
+const addBtn = document.querySelector(".addBtn");
+const mdBox = document.querySelector(".modal-container");
+const mdClose = mdBox.querySelector(".modal-close");
+const penClose = document.querySelector(".md-close")
 
 // Общая функция добавления котов
 // ----------------------------------------------
-function createCart(cat) {
+function createCart(cat, el = box) {
     const card = document.createElement("div");
     card.className = "card";
     if (!cat.image) {
@@ -57,8 +55,9 @@ function createCart(cat) {
     // изменения
     const pen = document.querySelector("i");
     pen.className = "fa-solid fa-pen card__pen"
-    const upd = document.querySelector(".md-container");
+   
     pen.addEventListener("click", e => {
+        e.stopPropagation();
         upd.style.display = "flex";
         const idInput = upd.querySelector("input[name=id]");
         if (idInput) {
@@ -82,7 +81,7 @@ function createCart(cat) {
         }
     });
 
-    const penClose = document.querySelector(".md-close")
+    
     penClose.addEventListener("click", e => {
         upd.style = null;
     })
@@ -98,7 +97,7 @@ function createCart(cat) {
     })
 
     // Добавление в карточку
-    card.append(like, pen, name, trash,);
+    card.append(like, pen, name, trash);
 
     if (cat.age >= 0) {
         const age = document.createElement("span");
@@ -111,23 +110,20 @@ function createCart(cat) {
     })
     el.append(card)
 }
-
-
 // ----------------------------------------------
 // вызов функции
-createCart(cat, el = box)
+// createCart(cat, el = box)
 
 
 // localStorage
-
 let user = localStorage.getItem("cat12") //получить имя пользователя
 const path = `https://cats.petiteweb.dev/api/single/${user}`;
 
 if (!user) {
     user = prompt("Ваше уникальное имя: ", "beginner-frontender")
     localStorage.setItem("cat12", user) // добавить имя пользователя
+    localStorage.removeItem("cats-data") //очистить котов при новом пользователе
 }
-
 let cats = localStorage.getItem("cats-data") // массив с котами
 if (cats) {
     cats = JSON.parse(cats) // взять из строки объект
@@ -153,10 +149,7 @@ if (cats) {
             }
         })
 }
-
-
 // функция добавления котика в базу данных
-// cat.id = 7
 function addCat(cat) {
     fetch(path + "/add", {
         method: "POST",
@@ -171,8 +164,6 @@ function addCat(cat) {
         })
 }
 // addCat(cat);
-
-
 
 // функция удаления карточки с котом 
 function deleteCard(id, el) {
@@ -190,11 +181,7 @@ function deleteCard(id, el) {
     }
 }
 
-// Открытие и закрытие модального окна
-const addBtn = document.querySelector(".addBtn");
-const mdBox = document.querySelector(".modal-container");
-const mdClose = mdBox.querySelector(".modal-close");
-
+// Открытие и закрытие модального окна c добавлением кота
 addBtn.addEventListener("click", e => {
     mdBox.style.display = "flex";
 });
@@ -203,7 +190,7 @@ mdClose.addEventListener("click", e => {
 });
 // ----------------------------------------------
 
-// Отправка формы обратной связи
+// Отправка формы обратной связи 
 const addForm = document.forms.add;
 addForm.addEventListener("submit", e => {
     e.preventDefault(); // остановить действие по умолчанию
@@ -250,7 +237,6 @@ addForm.addEventListener("submit", e => {
 
 // // Отправка формы обратной связи c изменениями
 const updForm = document.forms.upd;
-const mdBox2 = document.querySelector(".md-container");
 updForm.addEventListener("submit", e => {
     e.preventDefault(); // остановить действие по умолчанию
     const body = {};
@@ -264,24 +250,37 @@ updForm.addEventListener("submit", e => {
             }
         }
     }
-    fetch(`${path}/update/${body.id}`), {
-        method: "PUT",
+    body.id = +body.id;
+    console.log("upd", body);
+
+    fetch(`${path}/update/${body.id}`, {
+        method: "put",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
-        }
-    .then(res => {
-        console.log(res)
-        if (res.ok) {
-            updForm.reset();
-            mdBox2.style = null;
-            createCart(body);
-            // let cats = localStorage.getItem("cats-data");
-            localStorage.setItem("cats-data", JSON.stringify(cats));
-        } else {
-            return res.json();
-        }
     })
-        upd.style = null;
+    .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (data.message.includes("успешно")) {
+                cats = cats.map(cat => {
+                    if (cat.id === body.id) {
+                        return body;
+                    }
+                    return cat;
+                })
+                console.log(cats);
+                box.innerHTML = "";
+                cats.forEach(cat => {
+                    createCart(cat, box);
+                })
+                updForm.reset()
+                upd.style = null;
+                localStorage.setItem("cats-data", JSON.stringify(cats));
+            } else {
+                return res.json();
+            }
+        })
+       
 })
