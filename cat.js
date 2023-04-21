@@ -53,7 +53,7 @@ function createCart(cat, el = box) {
         }
     })
     // изменения
-    const pen = document.querySelector("i");
+    const pen = document.createElement("i");
     pen.className = "fa-solid fa-pen card__pen"
    
     pen.addEventListener("click", e => {
